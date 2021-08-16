@@ -41,6 +41,7 @@ function printOutBlogs(post) {
 
 export function PostEvent() {
     createPost();
+    edite
     //EditPost()
 }
 
@@ -50,22 +51,6 @@ function createPost() {
             title: document.querySelector("#title").value,
             content: document.querySelector("#content").value,
         }
-
-        // let request = {
-        //     method: "POST",
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(obj)
-        // };
-        //
-        // fetchData(
-        //     {
-        //         posts: `/api/posts`
-        //     }, request).then((data) => {
-        //     console.log(data);
-        //     createView("/posts");
-        // });
 
 
         const url = `http://localhost:8080/api/posts`;
@@ -85,4 +70,6 @@ function createPost() {
             })
             .catch(error => console.error(error)); /* handle errors */
     });
+
+
 }
