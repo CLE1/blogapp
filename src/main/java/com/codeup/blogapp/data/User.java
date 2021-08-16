@@ -5,14 +5,26 @@ import java.util.Date;
 
 public class User {
 
-    public enum Role{USER,ADMIN};
-
     private long id;
     private String username;
     private String email;
     private String password;
-    private Date createdAt;
-    private Role role;
+//    private Date createdAt;
+    private Role role = Role.USER;
+    public enum Role{USER, ADMIN};
+
+    public User() {
+
+
+    }
+
+    public User(long id, String username, String email, String password, Date createdAt) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+//        this.createdAt = createdAt;
+    }
 
     public long getId() {
         return id;
@@ -46,13 +58,13 @@ public class User {
         this.password = password;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+//    public Date getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(Date createdAt) {
+//        this.createdAt = createdAt;
+//    }
 
     public Role getRole() {
         return role;
@@ -60,16 +72,5 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public User(long id, String username, String email, String password, Date createdAt, Role role) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.createdAt = createdAt;
-        this.role = role;
-
-
     }
 }
