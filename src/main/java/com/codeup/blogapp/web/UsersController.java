@@ -10,6 +10,7 @@ import java.util.List;
 @RequestMapping(value = "/api/users", headers = "Accept=application/json", produces = "application/json")
 public class UsersController {
 
+
     private List<User> getUsers(){
         return new ArrayList<>(){{
             add(new User(1L, "CLE1", "espi.chris117@gmail.com", "BLAHblah"));
