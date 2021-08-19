@@ -27,6 +27,20 @@ export default function PostIndex(props) {
     `;
 }
 
+function getPostsComponent(posts){
+    return posts.map(post =>
+
+
+    )
+}
+
+function getCategoriesComponent(categories){
+    return categories.map(category => {
+        <span>#${category.name}</span>
+    })
+}
+
+
 function printOutBlogs(post) {
     return `
             <div class="col mb-3">
