@@ -1,13 +1,13 @@
 package com.codeup.blogapp.data;
 
 import javax.management.relation.Role;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Date;
 
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -17,6 +17,7 @@ public class User {
     @Column(nullable = false, length = 120)
     private String username;
 
+    @Email
     @Column(nullable = false)
     private String email;
 
@@ -24,8 +25,13 @@ public class User {
     private String password;
 
 //    private Date createdAt;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role = Role.USER;
+
     public enum Role{USER, ADMIN};
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "posts")
     private Collection<Post> posts;
 
 

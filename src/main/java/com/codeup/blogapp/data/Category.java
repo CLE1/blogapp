@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Table(name = "categories")
 public class Category {
 
     @Id
@@ -13,7 +14,7 @@ public class Category {
     @Column(nullable = false, length = 120)
     private  String name;
 
-
+    @ManyToMany(mappedBy = "categories")
     private Collection<Post> posts;
 
     public Category() {
