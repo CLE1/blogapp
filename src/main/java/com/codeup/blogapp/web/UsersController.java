@@ -14,9 +14,7 @@ public class UsersController {
 
     @GetMapping
     private List<User> getUsers() {
-        return new ArrayList<>() {{
-            add(new User(1L, "CLE1", "espi.chris117@gmail.com", "BLAHblah"));
-        }};
+        return null;
     }
 
     @PostMapping
@@ -24,6 +22,7 @@ public class UsersController {
         System.out.println(user.getUsername());
         System.out.println(user.getEmail());
         System.out.println(user.getPassword());
+
     }
 
     @PutMapping("{/id}")
