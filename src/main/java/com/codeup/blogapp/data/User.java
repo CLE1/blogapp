@@ -1,15 +1,28 @@
 package com.codeup.blogapp.data;
 
 import javax.management.relation.Role;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Collection;
 import java.util.Date;
 
 public class User {
 
+    @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false, length = 120)
     private String username;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
 //    private Date createdAt;
     private Role role = Role.USER;
     public enum Role{USER, ADMIN};
