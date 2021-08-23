@@ -17,7 +17,7 @@ public class PostController {
 
     @GetMapping
     private List<Post> getPost() {
-       return postsRepository.findAll();
+        return postsRepository.findAll();
 
     }
 
@@ -38,7 +38,7 @@ public class PostController {
         System.out.println("updating post with id" + id);
         System.out.println(post);
         System.out.println(id);
-        postsRepository.save(postToUpdate);
+        postsRepository.save(post);
     }
 
     @DeleteMapping({"/{id}"})

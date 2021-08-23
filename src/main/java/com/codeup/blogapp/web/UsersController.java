@@ -1,6 +1,7 @@
 package com.codeup.blogapp.web;
 
 import com.codeup.blogapp.data.User;
+import com.codeup.blogapp.data.UsersRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,9 +13,15 @@ import java.util.List;
 @RequestMapping(value = "/api/users", headers = "Accept=application/json", produces = "application/json")
 public class UsersController {
 
+    private final UsersRepository usersRepository;
+
+    public UsersController(UsersRepository usersRepository){
+        this.usersRepository = usersRepository;
+    }
+
     @GetMapping
     private List<User> getUsers() {
-        return null;
+        return usersRepository.findAll();
     }
 
     @PostMapping
