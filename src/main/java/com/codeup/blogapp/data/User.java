@@ -1,6 +1,7 @@
 package com.codeup.blogapp.data;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.management.relation.Role;
@@ -12,6 +13,8 @@ import java.util.Date;
 @Entity
 @Table(name = "users")
 public class User {
+
+
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
@@ -35,7 +38,7 @@ public class User {
     public enum Role{USER, ADMIN};
 
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
+    @JsonIgnoreProperties("user")
     private Collection<Post> posts;
 
 

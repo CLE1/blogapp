@@ -1,6 +1,7 @@
 package com.codeup.blogapp.data;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -9,6 +10,19 @@ import java.util.Collection;
 @Entity
 @Table(name = "")
 public class Post {
+
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
+            targetEntity = Category.class)
+    @JoinTable(
+            name="post_category",
+            joinColumns = {@JoinColumn(name = "post_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="category_id", nullable = false, updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +35,7 @@ public class Post {
     private String content;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnoreProperties({"posts", "password"})
     private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -30,6 +44,8 @@ public class Post {
             joinColumns = {@JoinColumn(name = "post_id")},
     inverseJoinColumns = {@JoinColumn(name="category_id")}
     )
+
+
     private Collection<Category> categories;
 
     public Post(Long id, String title, String content, User user, Collection<Category> categories) {
