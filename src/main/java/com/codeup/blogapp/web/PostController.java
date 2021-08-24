@@ -2,6 +2,7 @@ package com.codeup.blogapp.web;
 
 import com.codeup.blogapp.data.Post;
 import com.codeup.blogapp.data.PostsRepository;
+import com.codeup.blogapp.services.EmailService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -9,9 +10,16 @@ import java.util.List;
 @RequestMapping(value = "/api/posts", headers = "Accept=application/json", produces = "application/json")
 public class PostController {
 
+    private final EmailService emailService;
+
+    public PostController(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
     private final PostsRepository postsRepository;
 
-    public PostController(PostsRepository postsRepository){
+    public PostController(EmailService emailService, PostsRepository postsRepository){
+        this.emailService = emailService;
         this.postsRepository = postsRepository;
     }
 

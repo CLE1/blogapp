@@ -9,18 +9,18 @@ import java.util.Collection;
 @Table(name = "categories")
 public class Category {
 
-    or Category.java:
-    ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
-    targetEntity = Post.class)
-    @JoinTable(
-            name="post_category",
-            joinColumns = {@JoinColumn(name = "category_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name="post_id", nullable = false, updatable = false)},
-            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
-            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
-    )
+//    or Category.java:
+//    ManyToMany(
+//            fetch = FetchType.LAZY,
+//            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
+//    targetEntity = Post.class)
+//    @JoinTable(
+//            name="post_category",
+//            joinColumns = {@JoinColumn(name = "category_id", nullable = false, updatable = false)},
+//            inverseJoinColumns = {@JoinColumn(name="post_id", nullable = false, updatable = false)},
+//            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+//            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+//    )
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
