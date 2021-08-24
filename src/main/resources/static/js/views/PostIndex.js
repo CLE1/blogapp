@@ -1,89 +1,173 @@
 import createView from "../createView.js";
 
 export default function PostIndex(props) {
-
+    console.log(props);
     return `
-        <header xmlns="http://www.w3.org/1999/html">
-            <h1 class="mx-auto">Welcome To my blogs</h1>
-        </header>
-        <main>
-            <div class="container row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-3">
-               
-                <div class="col mb-3">
-                    <div class=" card shadow-sm p-1">
-                        <form id="post-form">
-                            <h5> New Blog </h5>
-                            <input id="title" class="border-box" name="title" type="text" placeholder="Blog Title"/>
-                            <textarea cols="20"  id="content" name="content" type="text" placeholder="Content"></textarea>
-                            <button id="save-btn" class="btn-sm" type="submit"> Post </button>
-                        </form>
-                    </div>
-                </div>
-                
-                 ${props.posts.map(post => `${printOutBlogs(post)}`).join('')}  
-                 
-            </div>
-        </main>
+    <header>
+    <h1>Posts Page</h1>
+    </header>
+    <main>
+        <form>
+            <input type="text" id="title">
+            <input type="text" id="content">
+            <select>
+                <option value="">---Select a Category---</option>
+                ${props.categories.map(category => `<option>${category.name}</option>`)}
+            </select>
+            <button id="create-post-btn" type="button">Add Post</button>
+        </form>
+        <div>
+            ${getPostsComponent(props.posts)}
+        </div>
+    </main>
     `;
 }
 
 function getPostsComponent(posts){
+
     return posts.map(post =>
-
-
-    )
+    {
+        console.log(post);
+        return `
+            <div class="post">
+                <h3 class="edit-title" data-id=${post.id}>${post.title}</h3>
+                <h4 class="edit-content">${post.content}</h4>
+               
+                <h4 class="username">Posted By: ${post.user.username}</h4>
+                <div class="categories">
+                ${getPostCategoriesComponent(post.categories)}
+                </div>
+            
+                <button class="edit-post-btn" data-id="${post.id}">Edit</button>
+                <button class="delete-post-btn" data-id="${post.id}">Delete</button>
+            </div>
+            `}).join('');
 }
 
-function getCategoriesComponent(categories){
-    return categories.map(category => {
-        <span>#${category.name}</span>
+function getPostCategoriesComponent(categories){
+
+    console.log(categories);
+    return categories.map(category =>
+        `
+            <span>#${category.name}</span>
+        `
+    ).join('');
+
+}
+
+
+export function PostsEvent() {
+
+    // call function for create button listener
+
+    createPostEvent();
+
+
+    // call function for edit button listener
+
+    editEvent();
+
+    // call function for delete button listener
+
+    deleteEvent();
+
+
+}
+
+function createPostEvent(){
+
+    $("#create-post-btn").click(function () {
+
+        let post = {
+            title: $('#title').val(),
+            content: $('#content').val()
+        }
+
+        let request = {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(post)
+        }
+
+        fetch("http://localhost:8080/api/posts", request)
+            .then(res => {
+                console.log(res.status);
+                createView("/posts")
+            }).catch(error => {
+            console.log(error);
+            createView("/posts")
+        });
     })
 }
 
+function editEvent(){
 
-function printOutBlogs(post) {
-    return `
-            <div class="col mb-3">
-                <div class=" card shadow-sm p-1">
-                     <h5> ${post.title}</h5>
-                      <p>${post.content}</p>
-                      <button data-link="${post.id}" class="btn-sm delete-btn" type="submit"> Delete </button>
-                 </div>
-             </div>
-    `
+    $(".edit-post-btn").click(function () {
+
+        console.log("edit event fired off");
+
+        $(".edit-title, .edit-content").attr("contenteditable", false);
+        $(".edit-post-btn").text("Edit");
+
+        $(this).siblings(".edit-title, .edit-content").attr("contenteditable", true);
+
+        $(this).text("Save");
+
+        $(this).on("click", submitEditEvent)
+
+    })
+
 }
 
-export function PostEvent() {
-    createPost();
-    edite
-    //EditPost()
-}
 
-function createPost() {
-    document.querySelector("#save-btn").addEventListener("click", function () {
-        let obj = {
-            title: document.querySelector("#title").value,
-            content: document.querySelector("#content").value,
-        }
+function submitEditEvent(){
 
+    let post = {
+        title: $(this).siblings(".edit-title").text(),
+        content: $(this).siblings(".edit-content").text()
+    }
 
-        const url = `http://localhost:8080/api/posts`;
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(obj)
+    let request = {
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(post)
+    }
 
-        };
-        console.log(options)
-        fetch(url, options)
-            .then(data => {
-                console.log(data)
-                createView("/posts")
-            })
-            .catch(error => console.error(error)); /* handle errors */
+    let id = $(this).attr("data-id");
+
+    fetch(`http://localhost:8080/api/posts/${id}`, request)
+        .then(res => {
+            console.log(res.status);
+            createView("/posts")
+        }).catch(error => {
+        console.log(error);
+        createView("/posts")
     });
 
+    $(this).off("click", submitEditEvent);
+}
+
+
+function deleteEvent(){
+
+    $(".delete-post-btn").click(function() {
+
+        let request = {
+            method: "DELETE",
+            headers: {"Content-Type":"application/json"},
+        }
+
+        let id = $(this).attr("data-id");
+
+        fetch(`http://localhost:8080/api/posts/${id}`, request)
+            .then(res => {
+                console.log(res.status);
+                createView("/posts")
+            }).catch(error => {
+            console.log(error);
+            createView("/posts")
+        });
+
+    })
 
 }

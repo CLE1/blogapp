@@ -1,11 +1,13 @@
 import Home from "./views/Home.js";
-import PostIndex, {PostEvent} from "./views/PostIndex.js";
+import PostIndex from "./views/PostIndex.js";
 import About from "./views/About.js";
 import Error404 from "./views/Error404.js";
 import Loading from "./views/Loading.js";
 import Login from "./views/Login.js";
 import LoginEvent from "./auth.js";
+import {PostsEvent} from "./views/PostIndex.js";
 import Register, {RegisterEvent} from "./views/Register.js";
+import User, {UserEvent} from "./views/User.js";
 
 /**
  * Returns the route object for a specific route based on the given URI
@@ -20,6 +22,7 @@ export default function router(URI) {
             uri: '/',
             title: 'Home',
         },
+
         '/login': {
             returnView: Login,
             state: {},
@@ -27,6 +30,7 @@ export default function router(URI) {
             title: "Login",
             viewEvent: LoginEvent
         },
+
         '/posts': {
             returnView: PostIndex,
             state: {
@@ -34,23 +38,23 @@ export default function router(URI) {
             },
             uri: '/posts',
             title: 'All Posts',
-            viewEvent: PostEvent
-
-            //TODO: add event callback under viewEvent callback
-            // viewevent
+            viewEvent: PostsEvent
         },
+
         '/about': {
             returnView: About,
             state: {},
             uri: '/about',
             title: 'About',
         },
+
         '/error': {
             returnView: Error404,
             state: {},
             uri: location.pathname,
             title: ' ERROR',
         },
+
         '/loading': {
             returnView: Loading,
             state: {},
@@ -65,6 +69,14 @@ export default function router(URI) {
             title: "register",
             viewEvent: RegisterEvent
         },
+
+        '/users': {
+            returnView: User,
+            state: {users: "/api/users"},
+            uri: '/users',
+            title: "Users",
+            viewEvent: UserEvent
+        }
     };
 
     return routes[URI];

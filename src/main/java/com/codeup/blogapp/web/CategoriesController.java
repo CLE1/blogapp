@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/categories", headers = "/application/json")
+@RequestMapping(value = "/api/categories", headers = "/application/json", produces = "application/json")
 public class CategoriesController {
 
     private final CategoriesRepository categoriesRepository;
