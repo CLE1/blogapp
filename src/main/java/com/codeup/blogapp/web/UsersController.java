@@ -2,6 +2,7 @@ package com.codeup.blogapp.web;
 
 import com.codeup.blogapp.data.User;
 import com.codeup.blogapp.data.UsersRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,9 +14,12 @@ import java.util.List;
 public class UsersController {
 
     private final UsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UsersController(UsersRepository usersRepository){
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
+
     }
 
     @GetMapping
@@ -34,6 +38,8 @@ public class UsersController {
         System.out.println(user.getEmail());
         System.out.println(user.getPassword());
         usersRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
 
     }
 
