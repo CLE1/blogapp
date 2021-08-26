@@ -11,12 +11,8 @@ import java.util.List;
 public class PostController {
 
     private final EmailService emailService;
-
-    public PostController(EmailService emailService) {
-        this.emailService = emailService;
-    }
-
     private final PostsRepository postsRepository;
+
 
     public PostController(EmailService emailService, PostsRepository postsRepository){
         this.emailService = emailService;
@@ -31,7 +27,7 @@ public class PostController {
 
     @GetMapping("{id}")
     private Post getPostById(@PathVariable Long id) {
-        return postsRepository.getById(id);
+        return postsRepository.findById(id).get();
     }
 
     @PostMapping()
@@ -39,6 +35,7 @@ public class PostController {
         System.out.println(newPost.getTitle());
         System.out.println(newPost.getContent());
         postsRepository.save(newPost);
+        emailService.prepareAndSend(newPost, "what it do", "does it work or not?");
     }
 
     @PutMapping({"/{id}"})

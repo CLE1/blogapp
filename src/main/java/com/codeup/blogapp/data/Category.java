@@ -9,27 +9,27 @@ import java.util.Collection;
 @Table(name = "categories")
 public class Category {
 
-//    or Category.java:
-//    ManyToMany(
-//            fetch = FetchType.LAZY,
-//            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
-//    targetEntity = Post.class)
-//    @JoinTable(
-//            name="post_category",
-//            joinColumns = {@JoinColumn(name = "category_id", nullable = false, updatable = false)},
-//            inverseJoinColumns = {@JoinColumn(name="post_id", nullable = false, updatable = false)},
-//            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
-//            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
-//    )
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 120)
-    private  String name;
+    @Column(nullable = false)
+    private String name;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
+            targetEntity = Post.class)
+    @JoinTable(
+            name = "post_category",
+            joinColumns = {@JoinColumn(name = "category_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "post_id", nullable = false, updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+
     private Collection<Post> posts;
 
     public Category() {

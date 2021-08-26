@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,11 +23,17 @@ public class UsersController {
         return usersRepository.findAll();
     }
 
+    @GetMapping("{id}")
+    private User getUserById(@PathVariable Long id){
+        return usersRepository.getById(id);
+    }
+
     @PostMapping
     private void createUser(@RequestBody User user) {
         System.out.println(user.getUsername());
         System.out.println(user.getEmail());
         System.out.println(user.getPassword());
+        usersRepository.save(user);
 
     }
 
@@ -39,27 +44,31 @@ public class UsersController {
         System.out.println(user.getEmail());
         System.out.println(user.getPassword());
         System.out.println(user.getRole());
-
+        usersRepository.save(user);
     }
 
     @DeleteMapping("{/id}")
     private void deleteUser(@PathVariable Long id) {
         System.out.println("Deleting user with ID: " + id);
+        usersRepository.deleteById(id);
     }
 
     @PostMapping({"{id}"})
     private void findById(@PathVariable Long id){
         System.out.println("Id: " + id);
+        usersRepository.findById(id);
     }
 
     @PostMapping("/findByUsername")
-    private void findByUsername(@RequestParam String username){
+    private User findByUsername(@RequestParam String username){
         System.out.println("Username: " + username);
+        return usersRepository.findByUsername(username);
     }
 
     @PostMapping("/findByEmail")
-    private void findByEmail(@RequestParam String email){
+    private User findByEmail(@RequestParam String email){
         System.out.println("E-mail: " + email);
+        return usersRepository.findByEmail(email).get();
     }
 
     @PutMapping({"{id}/updatePassword"})
@@ -68,6 +77,9 @@ public class UsersController {
             System.out.println("Password for id: " + id + " has been updated!");
             System.out.println("Old password: " + oldPassword);
             System.out.println("New password: " + newPassword);
+            User user = usersRepository.getById(id);
+            user.setPassword(newPassword);
+            usersRepository.save(user);
         }
     }
 

@@ -14,9 +14,6 @@ public class EmailService {
     @Autowired
     public JavaMailSender emailSender;
 
-    @Value("${spring.mail.from}")
-    private String from;
-
     public void prepareAndSend(Post post, String subject, String body){
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom("insert email here");

@@ -35,7 +35,9 @@ export default function Register(props) {
 
             let request = {
                 method: "POST",
-                header: {"Content-Type": "application/json"},
+                header: {"Content-Type": "application/json",
+                    "accept": "application/json"
+                },
                 body: JSON.stringify(post)
             };
 

@@ -1,3 +1,5 @@
+package com.codeup.blogapp.security;
+
 import com.codeup.blogapp.data.User;
 import com.codeup.blogapp.data.UsersRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,11 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 
 @Service
-public class UsersService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
     private final UsersRepository repository;
 
-    public UsersService(UsersRepository repository) {
+    public UserService(UsersRepository repository) {
         this.repository = repository;
     }
 
