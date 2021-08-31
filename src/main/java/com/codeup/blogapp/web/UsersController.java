@@ -18,7 +18,7 @@ public class UsersController {
 
     public UsersController(UsersRepository usersRepository){
         this.usersRepository = usersRepository;
-        this.passwordEncoder = passwordEncoder;
+//        this.passwordEncoder = passwordEncoder;
 
     }
 
