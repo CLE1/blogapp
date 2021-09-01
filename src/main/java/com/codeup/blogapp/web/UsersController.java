@@ -2,6 +2,7 @@ package com.codeup.blogapp.web;
 
 import com.codeup.blogapp.data.User;
 import com.codeup.blogapp.data.UsersRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class UsersController {
 
     private final UsersRepository usersRepository;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
     public UsersController(UsersRepository usersRepository){
         this.usersRepository = usersRepository;
@@ -33,6 +34,7 @@ public class UsersController {
     }
 
     @PostMapping
+    @PreAuthorize("!hasAnyAuthority('USER')")
     private void createUser(@RequestBody User user) {
         System.out.println(user.getUsername());
         System.out.println(user.getEmail());
@@ -79,14 +81,14 @@ public class UsersController {
 
     @PutMapping({"{id}/updatePassword"})
     private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword){
-        if(!newPassword.equals(oldPassword)){
-            System.out.println("Password for id: " + id + " has been updated!");
-            System.out.println("Old password: " + oldPassword);
-            System.out.println("New password: " + newPassword);
-            User user = usersRepository.getById(id);
-            user.setPassword(newPassword);
-            usersRepository.save(user);
-        }
+//        if(!newPassword.equals(oldPassword)){
+//            System.out.println("Password for id: " + id + " has been updated!");
+//            System.out.println("Old password: " + oldPassword);
+//            System.out.println("New password: " + newPassword);
+//            User user = usersRepository.getById(id);
+//            user.setPassword(newPassword);
+//            usersRepository.save(user);
+//        }
     }
 
 }
