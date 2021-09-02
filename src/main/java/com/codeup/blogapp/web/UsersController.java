@@ -15,11 +15,11 @@ import java.util.List;
 public class UsersController {
 
     private final UsersRepository usersRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsersController(UsersRepository usersRepository){
+    public UsersController(UsersRepository usersRepository, PasswordEncoder passwordEncoder){
         this.usersRepository = usersRepository;
-//        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
@@ -32,6 +32,8 @@ public class UsersController {
     private User getUserById(@PathVariable Long id){
         return usersRepository.getById(id);
     }
+
+
 
     @PostMapping
     @PreAuthorize("!hasAnyAuthority('USER')")
@@ -81,14 +83,14 @@ public class UsersController {
 
     @PutMapping({"{id}/updatePassword"})
     private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword){
-//        if(!newPassword.equals(oldPassword)){
-//            System.out.println("Password for id: " + id + " has been updated!");
-//            System.out.println("Old password: " + oldPassword);
-//            System.out.println("New password: " + newPassword);
-//            User user = usersRepository.getById(id);
-//            user.setPassword(newPassword);
-//            usersRepository.save(user);
-//        }
+        if(!newPassword.equals(oldPassword)){
+            System.out.println("Password for id: " + id + " has been updated!");
+            System.out.println("Old password: " + oldPassword);
+            System.out.println("New password: " + newPassword);
+            User user = usersRepository.getById(id);
+            user.setPassword(newPassword);
+            usersRepository.save(user);
+        }
     }
 
 }
